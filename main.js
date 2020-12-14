@@ -2,6 +2,8 @@ Chart.defaults.scale.ticks.beginAtZero = true;
 var x = "tempo";
 var bubble_x = "energy"
 var bubble_y = "tempo"
+var globalData;
+var ascending = false;
 
 getlinechart();
 getbubblechart();
@@ -324,17 +326,29 @@ function getlinechart() {
   );
 }
 
+// Years
+var dataTime = d3.range(0, 41).map(function (d) {
+  return new Date(1980 + d, 10, 3);
+});
+
+var dataTimeTicks = d3.range(0, 5).map(function (d) {
+  return new Date(1980 + d * 10, 10, 3);
+});
+
 function range(data) {
+  console.log(dataTime.getYear)
   var sliderRange = d3
     .sliderBottom()
-    .min("1980")
-    .max("2020")
+    .min(d3.min(dataTime))
+    .max(d3.max(dataTime))
+    .step(1000 * 60 * 60 * 24 * 365)
     .width(300)
-    .ticks(5)
-    .default([1980, 2020])
-    .fill("#2196f3")
-    .on("onchange", (val) => {
-      d3.select("p#value-range").text(val.map(d3.format(".2%")).join("-"));
+    .tickFormat(d3.timeFormat('%Y'))
+    .tickValues(dataTimeTicks)
+    .default([new Date(1980, 10, 3), new Date(2020, 10, 3)])
+    .fill('#2196f3')
+    .on('onchange', val => {
+      d3.select('p#value-range').text(val.map(d3.timeFormat('%Y')).join(' to '));
     });
 
   var gRange = d3
@@ -346,8 +360,8 @@ function range(data) {
     .attr("transform", "translate(30,30)");
 
   gRange.call(sliderRange);
+  d3.select('p#value-range').text(sliderRange.value().map(d3.timeFormat('%Y')).join(' to '));
 
-  d3.select("p#value-range").text(sliderRange.value().join("-"));
 }
 
 function getbubblechart() {
@@ -368,24 +382,11 @@ function getbubblechart() {
   //Read the data
   // https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv
   d3.csv("bubbleTest.csv", function (data) {
-
-
-    //TODO sort functionality
-    function sortBubbleX(d) {
-        g.selectAll("circle")
-        .data(data)
-        .transition()
-        .append("circle")
-        .attr("class", "bubbles")
-        .attr("cx", function (d) { return x(xData(d)); })
-    }
-
-    function sortBubbleY(d) {
-
-    }
+    globalData = data;
 
     data.forEach(function (d) {
       //maybe not
+      d.srno = parseInt(d.srno);
       d.year = parseInt(d.year);
       d.acousticness = parseFloat(d.acousticness);
       d.danceability = parseFloat(d.danceability);
@@ -396,9 +397,6 @@ function getbubblechart() {
       d.instrumentalness = parseFloat(d.instrumentalness);
     });
 
-    //   var max = d3.max(data, function(d) { return d.instrumentalness
-    // ; });
-    // console.log(max);
 
     //select button
     var allGroup = ["tempo", "energy"];
@@ -549,8 +547,8 @@ function getbubblechart() {
       .enter()
       .append("circle")
       .attr("class", "bubbles")
-      .attr("cx", function (d) { return x(xData(d)); })
-      .attr("cy", function (d) { return y(yData(d)); })
+      .attr("cx", function (d) { return x(xData(d)) + 20; })
+      .attr("cy", function (d) { return y(yData(d)) - 20; })
       .attr("r", function (d) { return z(d.popularity); })
       .style("fill", function (d) { return myColor(d.year); })
       // -4- Trigger the functions
@@ -561,11 +559,59 @@ function getbubblechart() {
   })
 }
 
+d3.select("#sortX").on("click", function () {
+  sortX(globalData);
+})
+d3.select("#sortY").on("click", function () {
+  sortY(globalData);
+})
+d3.select("#reset").on("click", function () {
+  bubbleReset(globalData);
+})
+
+
+//Functions to be triggered to sort the Bubble chart based on input
+function sortX(d) {
+
+  x.domain(d.sort(sortX).map(function (d, i) { return d.letter; }));
+}
+
+function sortY(d) {
+
+}
+
+function bubbleReset(d) {
+
+}
+
+//Comparator functions for sorting X, Y and reseting respectively.
+function sortDataX(a, b) {
+  if (ascending) {
+    return xData(b) - xData(a);
+  }
+  return xData(a) - yData(b);
+}
+
+function sortDataY(a, b) {
+  if (ascending) {
+    return yData(b) - yData(a);
+  }
+  return yData(a) - yData(b);
+}
+
+function resetData(a, b) {
+  return getSrNo(b) - getSrNo(a);
+}
+
+function getSrNo(d) {
+  return d.srno;
+}
+
+
 function RadarUpdate(song) {
 
   radarChart.data.datasets[song].data = songAttributes[song];
   radarChart.data.datasets[song].label = names[song];
-  console.log(names[song]);
   radarChart.update({
     duration: 300,
     easing: 'easeInSine'
