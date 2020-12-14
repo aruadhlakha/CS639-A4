@@ -9,7 +9,6 @@ var Attributes = ['Popularity', 'Valence', 'Danceability', 'Energy', 'Acousticne
 var songAttributes = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
 var names = ["Hover to select", "Click to select"];
 var ctx = document.getElementById('radarChart').getContext('2d');
-console.log(names[0]);
 
 
 var xData = function (d) {
@@ -78,7 +77,7 @@ var radarChart = new Chart(ctx, {
     datasets: [{
       label: names[0],
       pointHitRadius: 20,
-      backgroundColor: 'rgba(255, 77, 64,0.1)',
+      backgroundColor: 'rgba(255, 77, 64,0.3)',
       borderColor: 'rgb(255, 77, 64)',
       lineTension: 0.2,
       pointHoverRadius: 5,
@@ -86,7 +85,7 @@ var radarChart = new Chart(ctx, {
     }, {
       label: names[1],
       pointHitRadius: 20,
-      backgroundColor: 'rgba(64, 128, 255, 0.1)',
+      backgroundColor: 'rgba(64, 128, 255, 0.3)',
       borderColor: 'rgb(64, 128, 255)',
       lineTension: 0.2,
       pointHoverRadius: 5,
@@ -370,6 +369,21 @@ function getbubblechart() {
   // https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv
   d3.csv("bubbleTest.csv", function (data) {
 
+
+    //TODO sort functionality
+    function sortBubbleX(d) {
+        g.selectAll("circle")
+        .data(data)
+        .transition()
+        .append("circle")
+        .attr("class", "bubbles")
+        .attr("cx", function (d) { return x(xData(d)); })
+    }
+
+    function sortBubbleY(d) {
+
+    }
+
     data.forEach(function (d) {
       //maybe not
       d.year = parseInt(d.year);
@@ -505,7 +519,6 @@ function getbubblechart() {
       names[0] = getSongName(d);
       songAttributes[0] = getAttributes(d);
       RadarUpdate(0);
-      console.log(names[0], " ", songAttributes[0]);
 
     }
 
@@ -524,7 +537,6 @@ function getbubblechart() {
     }
 
     var click = function (d) {
-
       names[1] = getSongName(d);
       songAttributes[1] = getAttributes(d);
       RadarUpdate(1);
@@ -546,7 +558,6 @@ function getbubblechart() {
       .on("mousemove", moveTooltip)
       .on("mouseleave", hideTooltip)
       .on("mouseover", showTooltip)
-
   })
 }
 
@@ -556,7 +567,7 @@ function RadarUpdate(song) {
   radarChart.data.datasets[song].label = names[song];
   console.log(names[song]);
   radarChart.update({
-    duration: 800,
+    duration: 300,
     easing: 'easeInSine'
   });
 
