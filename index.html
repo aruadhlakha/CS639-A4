@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			.bubbles {
+				stroke-width: 2px;
+				stroke: white;
+			}
+			.bubbles:hover {
+				stroke: black;
+			}
+			.jumbotron {
+				color: darkgreen;
+			}
+		</style>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+			integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+			crossorigin="anonymous"
+		/>
+		<!-- Load Library Scripts from Web -->
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://d3js.org/d3.v4.js"></script>
+		<script src="https://unpkg.com/d3-simple-slider"></script>
+		<!-- Load d3.js -->
+		<script src="https://d3js.org/d3.v4.js"></script>
+		<!-- Load Chart.js -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<!-- Load color scale -->
+		<script src="https://d3js.org/d3-scale-chromatic.v1.js"></script>
+		<title>CS 639 Final Project Demo</title>
+	</head>
+	<body>
+		<section class="jumbotron text-center" style="background-color: black">
+			<div class="container">
+				<h1 class="display-4">Visualizing Musical Trends</h1>
+				<h4>Built using d3.js</h4>
+				<p class="lead text-muted">
+					A handy tool for analyzing musical trends over the last 40 years
+					using spotify data.
+				</p>
+			</div>
+		</section>
+		<section class="content mx-auto">
+			<div class="col-md-12 row">
+				<div class="col-md-6">
+					<div class="col-md-4">
+						<h5>Select attribute</h5>
+						<select
+							class="custom-select"
+							id="change_attribute"
+							onchange="getNewAttribute()"
+						>
+							<option value="tempo" selected>tempo</option>
+							<option value="acousticness">acousticness</option>
+							<option value="danceability">danceability</option>
+							<option value="energy">energy</option>
+							<option value="valence">valence</option>
+							<option value="liveness">liveness</option>
+							<option value="speechiness">speechiness</option>
+						</select>
+						<h5>Range</h5>
+						<div class="row align-items-center">
+							<div class="col-sm"><p id="value-range"></p></div>
+							<div class="col-sm"><div id="slider-range"></div></div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<h4 id="attribute">tempo</h4>
+						<div id="my_dataviz"></div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="col-md-12 row">
+						<div class="col-md-4">
+							<label>Set X-axis</label>
+							<select
+								class="custom-select"
+								id="bubble_attribute_x"
+								onchange="bubble_attribute_x()"
+							>
+								<option value="tempo" selected>tempo</option>
+								<option value="acousticness">acousticness</option>
+								<option value="danceability">danceability</option>
+								<option value="energy" selected="selected">
+									energy
+								</option>
+								<option value="instrumentalness">
+									instrumentalness
+								</option>
+								<option value="valence">valence</option>
+								<option value="liveness">liveness</option>
+								<option value="speechiness">speechiness</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label>Set Y-axis</label>
+							<select
+								class="custom-select"
+								id="bubble_attribute_y"
+								onchange="bubble_attribute_y()"
+							>
+								<option value="tempo" selected>tempo</option>
+								<option value="acousticness">acousticness</option>
+								<option value="danceability">danceability</option>
+								<option value="energy">energy</option>
+								<option value="instrumentalness">
+									instrumentalness
+								</option>
+								<option value="valence">valence</option>
+								<option value="liveness">liveness</option>
+								<option value="speechiness">speechiness</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<div id="my_bubble_sort"></div>
+						</div>
+						<div class="col-md-6 p-5">
+							<canvas id="radarChart" height="400" width="400"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script src="main.js"></script>
+		<!-- <script src="src/assets/radarChart.js"></script> -->
+	</body>
+</html>
