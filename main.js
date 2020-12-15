@@ -9,6 +9,7 @@ var bubbleYear = 1980;
 populateBubbleYearSelect()
 getlinechart();
 getBubbleChart();
+addAttributeDescription();
 var Attributes = ['Popularity', 'Valence', 'Danceability', 'Energy', 'Acousticness', 'Speechiness'];
 var songAttributes = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
 var names = ["Hover to select", "Click to select"];
@@ -136,6 +137,7 @@ function getNewAttribute() {
   $("#my_dataviz").empty();
   $('#slider-range').empty();
   getlinechart();
+  addAttributeDescription();
 }
 
 function bubble_attribute_x() {
@@ -153,8 +155,8 @@ function bubble_attribute_y() {
 function yearSelect() {
   bubbleYear = document.getElementById("selectYear").value;
   // $("#selectYear").empty();
-  updateBubbleChart();
-  // getBubbleChart();
+  // updateBubbleChart();
+  getBubbleChart();
 }
 
 function getlinechart() {
@@ -368,19 +370,19 @@ function range(data) {
       d3.select('p#value-range').text(val.map(d3.timeFormat('%Y')).join(' to '));
     });
 
-    // function range(data) {
-    //   $( "#slider-range" ).slider({
-    //     range: true,
-    //     min: 0,
-    //     max: 500,
-    //     values: [ 1980, 2020 ],
-    //     slide: function( event, ui ) {
-    //       $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-    //     }
-    //   });
-    //   $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
-    //     " - " + $( "p#value-range" ).slider( "values", 1 ) );
-    // } ;
+  // function range(data) {
+  //   $( "#slider-range" ).slider({
+  //     range: true,
+  //     min: 0,
+  //     max: 500,
+  //     values: [ 1980, 2020 ],
+  //     slide: function( event, ui ) {
+  //       $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+  //     }
+  //   });
+  //   $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+  //     " - " + $( "p#value-range" ).slider( "values", 1 ) );
+  // } ;
 
   var gRange = d3
     .select("div#slider-range")
@@ -659,5 +661,36 @@ function RadarUpdate(song) {
     easing: 'easeInSine'
   });
 
-  
+
+}
+
+
+function addAttributeDescription() {
+
+  var Description = "Pooot";
+
+  if (x == "tempo") {
+    
+  } else if (x == "acousticness") {
+    
+  } else if (x == "danceability") {
+    
+  } else if (x == "energy") {
+    
+  } else if (x == "instrumentalness") {
+    
+  } else if (x == "valence") {
+    
+  } else if (x == "popularity") {
+    
+  } else if (x == "liveness") {
+    
+  } else if (x == "loudness") {
+    
+  } else if (x == "speechiness") {
+    
+  }
+
+  document.getElementById('desc').innerHTML = Description;
+
 }

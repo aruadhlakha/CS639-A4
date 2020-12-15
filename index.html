@@ -167,7 +167,7 @@
 		<div class="col-md-4">
 			<div id="my_dataviz"></div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-3" id="desc">
 			<p>Hello, sir. How is it going>!?!?</p>
 		</div>
 		<div class="col-md-1">
@@ -184,7 +184,7 @@
 		</div>
 		<div class="col-md-6">
 			<div class="col-md-12 row">
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<label>Set X-axis</label>
 					<select class="custom-select" id="bubble_attribute_x" onchange="bubble_attribute_x()">
 						<option value="tempo" selected>tempo</option>
@@ -201,7 +201,7 @@
 						<option value="speechiness">speechiness</option>
 					</select>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<label>Set Y-axis</label>
 					<select class="custom-select" id="bubble_attribute_y" onchange="bubble_attribute_y()">
 						<option value="tempo" selected>tempo</option>
@@ -216,7 +216,22 @@
 						<option value="speechiness">speechiness</option>
 					</select>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-3">
+						<label>Select Year</label>
+						<select
+							class="custom-select"
+							id="selectYear"
+							onchange="yearSelect()"
+						></select>
+				</div>
+				<div class="col-md-6 py-3">
+					<button id="sortX" class="btn btn-primary">Sort X</button>
+					<button id="sortY" class="btn btn-success">Sort Y</button>
+					<button id="reset" class="btn btn-danger">Reset</button>
+				</div>
+				<!-- <div class="col-md-12">
+					
+				</div> -->
 			</div>
 			<div class="col">
 			</div>
