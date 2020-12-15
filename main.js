@@ -327,15 +327,29 @@ function getlinechart() {
 function range(data) {
   var sliderRange = d3
     .sliderBottom()
-    .min("1980")
-    .max("2020")
+    .min(1980)
+    .max(2020)
     .width(300)
     .ticks(5)
     .default([1980, 2020])
     .fill("#2196f3")
     .on("onchange", (val) => {
-      d3.select("p#value-range").text(val.map(d3.format(".2%")).join("-"));
+      d3.select("p#value-range").text(val.map(d3.timeFormat("0.2s")).join(" - "));
     });
+
+    // function range(data) {
+    //   $( "#slider-range" ).slider({
+    //     range: true,
+    //     min: 0,
+    //     max: 500,
+    //     values: [ 1980, 2020 ],
+    //     slide: function( event, ui ) {
+    //       $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    //     }
+    //   });
+    //   $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+    //     " - " + $( "p#value-range" ).slider( "values", 1 ) );
+    // } ;
 
   var gRange = d3
     .select("div#slider-range")
@@ -571,5 +585,5 @@ function RadarUpdate(song) {
     easing: 'easeInSine'
   });
 
-
+  
 }
