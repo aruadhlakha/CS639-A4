@@ -12,6 +12,9 @@
 			.jumbotron {
 				color: darkgreen;
 			}
+			.invisible {
+				display: none;
+			}
 		</style>
 		<!-- Required meta tags -->
 		<meta charset="utf-8" />
@@ -130,12 +133,20 @@
 								<option value="speechiness">speechiness</option>
 							</select>
 						</div>
+						<div class="col-md-4">
+							<label>Select Year</label>
+							<select
+								class="custom-select"
+								id="selectYear"
+								onchange="yearSelect()"
+							></select>
+						</div>
 					</div>
 					<div class="col-md-12">
-						<div class="col-md-6">
-							<button id="sortX">Sort X</button>
-							<button id="sortY">Sort Y</button>
-							<button id="reset">Reset</button>
+						<div class="col-md-6 py-3">
+							<button id="sortX" class="btn btn-primary">Sort X</button>
+							<button id="sortY" class="btn btn-success">Sort Y</button>
+							<button id="reset" class="btn btn-danger">Reset</button>
 							<div id="my_bubble_sort"></div>
 						</div>
 						<div class="col-md-6 p-5">

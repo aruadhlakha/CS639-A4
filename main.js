@@ -4,9 +4,11 @@ var bubble_x = "energy"
 var bubble_y = "tempo"
 var globalData;
 var ascending = false;
+var bubbleYear = 1980;
 
+populateBubbleYearSelect()
 getlinechart();
-getbubblechart();
+getBubbleChart();
 var Attributes = ['Popularity', 'Valence', 'Danceability', 'Energy', 'Acousticness', 'Speechiness'];
 var songAttributes = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
 var names = ["Hover to select", "Click to select"];
@@ -61,6 +63,14 @@ var yData = function (d) {
   }
 }
 
+function populateBubbleYearSelect() {
+  var select = "";
+  for (i = 1980; i <= 2020; i++) {
+    select += "<option val=" + i + ">" + i + "</option>";
+  }
+  $("#selectYear").html(select);
+}
+
 
 var getSongName = function (d) {
   return d.name;
@@ -69,6 +79,7 @@ var getSongName = function (d) {
 var getAttributes = function (d) {
   return [(d.popularity), (d.valence * 100), (d.danceability * 100), (d.energy * 100), (d.acousticness * 100), (d.speechiness * 100)];
 }
+
 
 var radarChart = new Chart(ctx, {
   // The type of chart we want to create
@@ -130,13 +141,20 @@ function getNewAttribute() {
 function bubble_attribute_x() {
   bubble_x = document.getElementById("bubble_attribute_x").value;
   $("#my_bubble_sort").empty();
-  getbubblechart();
+  getBubbleChart();
 }
 
 function bubble_attribute_y() {
   bubble_y = document.getElementById("bubble_attribute_y").value;
   $("#my_bubble_sort").empty();
-  getbubblechart();
+  getBubbleChart();
+}
+
+function yearSelect() {
+  bubbleYear = document.getElementById("selectYear").value;
+  // $("#selectYear").empty();
+  updateBubbleChart();
+  // getBubbleChart();
 }
 
 function getlinechart() {
@@ -326,7 +344,7 @@ function getlinechart() {
   );
 }
 
-// Years
+// Years for Graph 1
 var dataTime = d3.range(0, 41).map(function (d) {
   return new Date(1980 + d, 10, 3);
 });
@@ -336,7 +354,6 @@ var dataTimeTicks = d3.range(0, 5).map(function (d) {
 });
 
 function range(data) {
-  console.log(dataTime.getYear)
   var sliderRange = d3
     .sliderBottom()
     .min(d3.min(dataTime))
@@ -364,7 +381,17 @@ function range(data) {
 
 }
 
-function getbubblechart() {
+function updateBubbleChart() {
+
+  d3.selectAll("dot")
+    .datum(globalData)
+    .enter()
+    .transition()
+    .attr("class", "bubbles");
+
+}
+
+function getBubbleChart() {
   // set the dimensions and margins of the graph
   var margin = { top: 70, right: 180, bottom: 30, left: 50 },
     width = 750 - margin.left - margin.right,
@@ -381,7 +408,7 @@ function getbubblechart() {
 
   //Read the data
   // https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv
-  d3.csv("bubbleTest.csv", function (data) {
+  d3.csv("top_bottom.csv", function (data) {
     globalData = data;
 
     data.forEach(function (d) {
@@ -510,7 +537,7 @@ function getbubblechart() {
       tooltip
         // .duration(200)
         .style("opacity", 1)
-        .html(bubble_x + ": " + xData(d) + "<br>" + bubble_y + ": " + yData(d) + "<br>Song: " + d.name)
+        .html(bubble_x + ": " + xData(d).toFixed(2) + "<br>" + bubble_y + ": " + yData(d).toFixed(2) + "<br>Song: " + d.name)
         .style("left", (d3.mouse(this)[0] + 30) + "px")
         .style("top", (d3.mouse(this)[1] + 30) + "px");
 
@@ -529,8 +556,8 @@ function getbubblechart() {
     var hideTooltip = function (d) {
       tooltip
         .transition()
-        .delay(1000)
-        .duration(600)
+        // .delay(1000)
+        // .duration()
         .style("opacity", 0)
     }
 
@@ -547,6 +574,7 @@ function getbubblechart() {
       .enter()
       .append("circle")
       .attr("class", "bubbles")
+      .classed('invisible', d => { return (d.year != bubbleYear) })
       .attr("cx", function (d) { return x(xData(d)) + 20; })
       .attr("cy", function (d) { return y(yData(d)) - 20; })
       .attr("r", function (d) { return z(d.popularity); })
@@ -554,8 +582,8 @@ function getbubblechart() {
       // -4- Trigger the functions
       .on("click", click)
       .on("mousemove", moveTooltip)
-      .on("mouseleave", hideTooltip)
       .on("mouseover", showTooltip)
+      .on("mouseleave", hideTooltip)
   })
 }
 
