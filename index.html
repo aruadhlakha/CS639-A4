@@ -7,6 +7,14 @@
 			stroke-width: 2px;
 			stroke: white;
 		}
+		body{
+			opacity: 1;
+			transition: 1s opacity;
+		}
+		body .fade-in{
+			opacity: 0;
+			transition: none;
+		}
 
 		.bubbles:hover {
 			stroke: black;
@@ -167,8 +175,8 @@
 		<div class="col-md-4">
 			<div id="my_dataviz"></div>
 		</div>
-		<div class="col-md-3" id="desc">
-			<p>Hello, sir. How is it going>!?!?</p>
+		<div class="lead col-md-3" id="desc">
+			<p>Placeholder text</p>
 		</div>
 		<div class="col-md-1">
 		</div>
@@ -224,16 +232,11 @@
 							onchange="yearSelect()"
 						></select>
 				</div>
-				<div class="col-md-6 py-3">
-					<button id="sortX" class="btn btn-primary">Sort X</button>
-					<button id="sortY" class="btn btn-success">Sort Y</button>
-					<button id="reset" class="btn btn-danger">Reset</button>
-				</div>
-				<!-- <div class="col-md-12">
-					
-				</div> -->
-			</div>
-			<div class="col">
+					<!-- <div class="col-md-6 py-3">
+						<button id="sortX" class="btn btn-primary">Sort X</button>
+						<button id="sortY" class="btn btn-success">Sort Y</button>
+						<button id="reset" class="btn btn-danger">Reset</button>
+					</div> -->
 			</div>
 		</div>
 
