@@ -5,6 +5,7 @@ var bubble_y = "tempo"
 var globalData;
 var ascending = false;
 var bubbleYear = 1980;
+var minYear, maxYear;
 
 populateBubbleYearSelect()
 getlinechart();
@@ -154,9 +155,7 @@ function bubble_attribute_y() {
 
 function yearSelect() {
   bubbleYear = document.getElementById("selectYear").value;
-  // $("#selectYear").empty();
   $("#my_bubble_sort").empty();
-  // updateBubbleChart();
   getBubbleChart();
 }
 
@@ -369,21 +368,9 @@ function range(data) {
     .fill('#2196f3')
     .on('onchange', val => {
       d3.select('p#value-range').text(val.map(d3.timeFormat('%Y')).join(' to '));
+      console.log(minRange + " to " + maxRange);
     });
 
-  // function range(data) {
-  //   $( "#slider-range" ).slider({
-  //     range: true,
-  //     min: 0,
-  //     max: 500,
-  //     values: [ 1980, 2020 ],
-  //     slide: function( event, ui ) {
-  //       $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-  //     }
-  //   });
-  //   $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
-  //     " - " + $( "p#value-range" ).slider( "values", 1 ) );
-  // } ;
 
   var gRange = d3
     .select("div#slider-range")
@@ -396,6 +383,9 @@ function range(data) {
   gRange.call(sliderRange);
   d3.select('p#value-range').text(sliderRange.value().map(d3.timeFormat('%Y')).join(' to '));
 
+  minRange = sliderRange.value()[0].getYear();
+  maxRange = sliderRange.value()[1].getYear();
+  
 }
 
 //Unused
@@ -411,7 +401,7 @@ function updateBubbleChart() {
 
 function getBubbleChart() {
   // set the dimensions and margins of the graph
-  var margin = { top: 70, right: 180, bottom: 30, left: 50 },
+  var margin = { top: 40, right: 180, bottom: 30, left: 50 },
     width = 750 - margin.left - margin.right,
     height = 520 - margin.top - margin.bottom;
 
@@ -595,7 +585,7 @@ function getBubbleChart() {
       .classed('invisible', d => { return (d.year != bubbleYear) })
       .attr("cx", function (d) { return x(xData(d)) + 20; })
       .attr("cy", function (d) { return y(yData(d)) - 20; })
-      .attr("r", function (d) { return z(d.popularity); })
+      .attr("r", function (d) { return z(d.popularity*d.popularity*d.popularity*0.0001); })
       .style("fill", function (d) { return myColor(d.year); })
       // -4- Trigger the functions
       .on("click", click)

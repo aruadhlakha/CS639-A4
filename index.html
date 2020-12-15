@@ -106,28 +106,29 @@
 </head>
 
 <body>
-
 	<section class="jumbotron text-center" style="background-color: black">
 		<div class="container">
 			<h1 class="display-4">Data Visualization</h1>
 			<h4>Spotify Music Visualizer</h4>
 			<p class="lead text-muted">
 				A handy tool for analyzing musical trends over the last 40 years
-				using spotify data
+				using data collected from Spotify. <br>This tool was built as the final project for CS-639: Interactive Information Visualization
+				Visualization at UW-Madison.
 			</p>
 		</div>
 	</section>
 	<!-- about section -->
 	<div class="about" id="about">
 		<div class="container">
-			<h1 class="text-center">Appreciating Music Using Spotify</h1>
+			<!-- <h1 class="text-center">Appreciating Music Using Spotify</h1> -->
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-12">
-					<img src="spotify.jpg" class="img-fluid">
+					<img src="spotify.jpg" class="img-thumbnail">
 				</div>
 				<div class="col-lg-8 col-md-8 col-sm-12 desc">
 
-					<h3>Dot.js</h3>
+					<h2>Our Team: Dot.js</h3>
+					<h6>Shubham Mehta		<br>		Mayukh Misra		<br>		Aryan Adhlakha		<br>		Aarushi Gupta</h6>
 					<p>
 						This visualization allows any user to study trends in musical attributes they
 						prefer, thereby allowing one to discover tracks from time periods they may not have
@@ -145,7 +146,8 @@
 	<div class="col-md-12 row">
 		<div class="col-md-1">
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-3 justify-content-md-center">
+			<div class="row"></div>
 			<h5>Select attribute</h5>
 			<select class="custom-select" id="change_attribute" onchange="getNewAttribute()">
 				<option value="tempo" selected>tempo</option>
@@ -161,16 +163,13 @@
 				</div>
 				<div></div>
 				<div class="col-md-auto">
-					<br>
-					<h5><p id="value-range"></p>
-					</h5>
 				</div>
 				<div class="col col-lg-1">
 				</div>
 			</div>
-			<div class="row align-items-center">
+			<!-- <div class="row align-items-center">
 				<div id="slider-range"></div>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4">
 			<div id="my_dataviz"></div>
